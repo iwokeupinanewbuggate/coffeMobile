@@ -10,8 +10,6 @@ import {
   Keyboard,
   View,
 } from "react-native";
-// import PagerView from "react-native-pager-view";
-// import { useRef } from "react";
 
 export default function LoginScreen() {
   const { onLogin } = useAuth();
@@ -24,6 +22,7 @@ export default function LoginScreen() {
         email,
         password,
       });
+    console.log(email, password);
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

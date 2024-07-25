@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
+import { LoginMutation, useLoginMutation } from "@/generated";
 
 type Props = {
   children: React.ReactNode;
@@ -19,35 +20,48 @@ type AuthContextType = {
   onLogin: (user: LoginInput) => void;
   onLogout: () => void;
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+  data: LoginMutation | null | undefined;
 };
 const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | undefined>();
   const navigation = useNavigation<any>();
-
+  const [loginMutation, { data, loading, error }] = useLoginMutation();
   useEffect(() => {
     const checkUser = async () => {
       const user = await AsyncStorage.getItem("@user");
       if (user) {
         setUser(JSON.parse(user));
+        router.push("home");
       }
     };
     checkUser();
   }, []);
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.push("index");
-  //   } else {
-  //     router.push("home");
-  //   }
-  // }, [user]);
-
-  const onLogin = (user: LoginInput) => {
+  const onLogin = async (user: LoginInput) => {
     setUser({ email: user.email });
-    AsyncStorage.setItem("@user", JSON.stringify(user));
-    router.push("home");
+    try {
+      const res = await loginMutation({
+        variables: {
+          input: {
+            email: user.email,
+            password: user.password,
+          },
+        },
+      });
+
+      if (res.data?.login) {
+        console.log(res);
+        await AsyncStorage.setItem("@user", JSON.stringify(user));
+        router.push("home");
+      } else {
+        alert("Email or Password was wrong");
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Email or Password was wrong");
+    }
   };
   const onLogout = async () => {
     await AsyncStorage.removeItem("@user");
@@ -56,7 +70,7 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   return (
-    <AuthContext.Provider value={{ onLogout, user, setUser, onLogin }}>
+    <AuthContext.Provider value={{ onLogout, user, setUser, onLogin, data }}>
       {children}
     </AuthContext.Provider>
   );

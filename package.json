@@ -3,20 +3,28 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
+    "start": "npm run codegen &&  expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "postinstall": "node postinstall.js"
+    "postinstall": "node postinstall.js",
+    "codegen": "graphql-codegen --config codeGen.yml"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.0",
     "@expo/vector-icons": "^14.0.2",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.3.2",
+    "@graphql-codegen/introspection": "^4.0.3",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
+    "@graphql-codegen/typescript-react-query": "^6.1.0",
+    "@graphql-tools/merge": "^9.0.4",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-navigation/native": "^6.0.2",
     "@types/react-native": "^0.73.0",
