@@ -6,6 +6,20 @@ import { router } from "expo-router";
 
 export const Product = () => {
   const { data, loading, error } = useGetProductQuery();
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading ... </Text>
+      </View>
+    );
+  }
+  if (error) {
+    return (
+      <View>
+        <Text>Server Error </Text>
+      </View>
+    );
+  }
   return (
     <View
       style={{

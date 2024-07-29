@@ -22,7 +22,6 @@ export default function LoginScreen() {
         email,
         password,
       });
-    console.log(email, password);
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

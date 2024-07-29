@@ -1,7 +1,8 @@
 import { ProductCategory } from "@/components/ProductsCategory";
+import { DataProvider, useData } from "@/contexts/DataProvider";
 import { useGetOneProductQuery } from "@/generated";
 import { useLocalSearchParams } from "expo-router";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function OneProductInfo() {
   const { id } = useLocalSearchParams();
@@ -10,6 +11,16 @@ export default function OneProductInfo() {
       getOneProductId: id as string,
     },
   });
+  const { getProduct } = useData();
+  // const addToCartHandler = () => {
+  //   const product = getProduct(id as string);
+  //   if (product) {
+  //     console.log("Product added to cart:", product);
+
+  //   } else {
+  //     console.log("Product not found");
+  //   }
+  // };
   return (
     <View>
       <Image
@@ -49,6 +60,9 @@ export default function OneProductInfo() {
           </View>
         </View>
       </View>
+      <Pressable>
+        <Text style={{}}>Add to cart</Text>
+      </Pressable>
     </View>
   );
 }

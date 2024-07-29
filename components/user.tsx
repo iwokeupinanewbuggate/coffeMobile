@@ -1,24 +1,27 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { Text, View } from "react-native";
+import { useAuth } from "@/contexts/AuthProvider";
+import { router } from "expo-router";
+import { Image, Pressable, Text, View } from "react-native";
 
-export const UserInfo = ({
-  SetUser,
-  user,
-}: {
-  SetUser: Dispatch<SetStateAction<string | null | undefined>>;
-  user: string | null | undefined;
-}) => {
-  useEffect(() => {
-    const getUser = async () => {
-      const user = await AsyncStorage.getItem("@user");
-      SetUser(user);
-    };
-    getUser();
-  }, []);
+export const UserInfo = () => {
+  const { data } = useAuth();
+  const profilePicUri = data?.login.profilePic || undefined;
+
   return (
-    <View>
-      <Text>{user}</Text>
-    </View>
+    <Pressable onPress={() => router.push(`/user`)}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          source={{ uri: profilePicUri }}
+          style={{ width: 50, height: 50, borderRadius: 50 }}
+        />
+        <Text>{data?.login.name}</Text>
+      </View>
+    </Pressable>
   );
 };

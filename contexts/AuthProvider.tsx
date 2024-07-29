@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | undefined>();
   const navigation = useNavigation<any>();
   const [loginMutation, { data, loading, error }] = useLoginMutation();
+
   useEffect(() => {
     const checkUser = async () => {
       const user = await AsyncStorage.getItem("@user");
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }: Props) => {
     };
     checkUser();
   }, []);
-
+  useEffect(() => {}, [data]);
   const onLogin = async (user: LoginInput) => {
     setUser({ email: user.email });
     try {
@@ -52,7 +53,6 @@ export const AuthProvider = ({ children }: Props) => {
       });
 
       if (res.data?.login) {
-        console.log(res);
         await AsyncStorage.setItem("@user", JSON.stringify(user));
         router.push("home");
       } else {

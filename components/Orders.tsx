@@ -13,6 +13,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import FontAwesome5 from "@expo/vector-icons/Ionicons";
+import { useGetOrdersQuery } from "@/generated";
 
 const STRINGS_ARRAY = [
   "🛒 Buy groceries",
@@ -44,6 +45,7 @@ interface IMappedStrings {
 }
 
 const Orders = () => {
+  const { data, error, loading } = useGetOrdersQuery();
   const [exampleArray, setExampleArray] =
     useState<IMappedStrings[]>(MAPPED_STRINGS);
 

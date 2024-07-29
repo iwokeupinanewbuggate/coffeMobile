@@ -12,7 +12,9 @@ export default function TabLayout() {
           headerShown: false,
           tabBarStyle: {
             display:
-              route.name === "index" || route.name === "login"
+              route.name === "index" ||
+              route.name === "login" ||
+              route.name === "user"
                 ? "none"
                 : "flex",
           },
@@ -29,6 +31,10 @@ export default function TabLayout() {
         />
         <Tabs.Screen
           name="login"
+          options={{ tabBarStyle: { display: "none" } }}
+        />
+        <Tabs.Screen
+          name="user"
           options={{ tabBarStyle: { display: "none" } }}
         />
         <Tabs.Screen

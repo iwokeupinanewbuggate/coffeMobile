@@ -10,14 +10,13 @@ import { UserInfo } from "@/components/user";
 
 export default function HomeScreen() {
   const pagerViewRef = useRef<PagerView>(null);
-  const [user, SetUser] = useState<string | null>();
   const { onLogout } = useAuth();
   const { data, loading, error } = useGetCatgeoryQuery();
 
   return (
     <View style={styles.container}>
       <View style={styles.page}>
-        <UserInfo SetUser={SetUser} user={user} />
+        <UserInfo />
         <ScrollView horizontal={true} style={{ width: 300, padding: 5 }}>
           <View style={styles.categoryList}>
             {data?.getCategory?.map((category, key) => (
